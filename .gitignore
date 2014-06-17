@@ -1,0 +1,33 @@
+###CodeIgniter###
+
+*/config/development
+*/logs/log-*.php
+*/logs/!index.html
+*/cache/*
+*/cache/!index.html
+*/cache/!.htaccess
+
+###Wordpress###
+
+.htaccess
+wp-content/uploads/
+wp-content/blogs.dir/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+sitemap.xml
+*.log
+wp-content/cache/
+wp-content/backups/
+sitemap.xml.gz
+wp-config.php
+
+###SublimeText###
+
+# workspace files are user-specific
+*.sublime-workspace
+
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+/*.sublime-project
