@@ -22,7 +22,7 @@ function wp_unregister_GLOBALS() {
 		die( 'GLOBALS overwrite attempt detected' );
 
 	// Variables that shouldn't be unset
-	$no_unset = array( 'GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix' );
+	$no_unset = array( 'GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix', 'ci_session' );
 
 	$input = array_merge( $_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, isset( $_SESSION ) && is_array( $_SESSION ) ? $_SESSION : array() );
 	foreach ( $input as $k => $v )
@@ -551,13 +551,22 @@ function wp_magic_quotes() {
 	// Escape with wpdb.
 	$_GET    = add_magic_quotes( $_GET    );
 	$_POST   = add_magic_quotes( $_POST   );
-	$_COOKIE = add_magic_quotes( $_COOKIE );
+	array_walk($_COOKIE, 'ci_ignore_magic_quotes');
+	// $_COOKIE = add_magic_quotes( $_COOKIE );
 	$_SERVER = add_magic_quotes( $_SERVER );
 
 	// Force REQUEST to be GET + POST.
 	$_REQUEST = array_merge( $_GET, $_POST );
 }
-
+/** * Applies Magic Quotes to the $_COOKIE global but ignores Codeigniter's Cookie
+* @param string $value Value passed by array_walk function
+* @param string $key Key passed by array_walk function
+ */
+function ci_ignore_magic_quotes($value,$key) {
+  if($key != "ci_session") {
+    stripslashes_deep($value);
+  }
+}
 /**
  * Runs just before PHP shuts down execution.
  *
